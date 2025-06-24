@@ -60,6 +60,7 @@ def main():
             #json.dump([{"access_tokenEnphase": new_access, "refresh_tokenEnphase" : new_refresh}])
 
     def enphase(): 
+        
         def refresh_access_token(refresh_tokenEnph):
             refresh_url = "https://api.enphaseenergy.com/oauth/token"
             refresh_params = {
@@ -84,8 +85,8 @@ def main():
                 with urllib.request.urlopen(refresh_request) as refresh_response:
                     refresh_data = json.loads(refresh_response.read().decode())
                     print(refresh_data)
-                    new_access_token = refresh_data.get("access_tokenEnphase")
-                    new_refresh_token = refresh_data.get("refresh_tokenEnphase")
+                    new_access_token = refresh_data.get("access_token")
+                    new_refresh_token = refresh_data.get("refresh_token")
                     # Update the tokens in the JSON file
                     tokens = load_tokens()
                     print("TESING PART HERRE NEW ACESS TOKEN:")
@@ -104,7 +105,7 @@ def main():
         access_tokenEnph = tokens.get("access_tokenEnphase")
         refresh_tokenEnph = tokens.get("refresh_tokenEnphase")
         url_production = "https://api.enphaseenergy.com/api/v4/systems/4383764/telemetry/production_meter"
-        myParam_production = {"key": "b832d681a9b724193bf222ea115b67a2"}
+        myParam_production = {"key": "dfdfbbbd4d5687ed46eb2e0f81056bf9"}
         headers = {
             "Authorization": f"Bearer {access_tokenEnph}"
         }
@@ -140,19 +141,21 @@ def main():
             print("Access token is missing. Obtaining a new one...")
             if refresh_tokenEnph:
                 print("IM IN HERE")
+                '''
                 access_tokenEnph = refresh_access_token(refresh_tokenEnph)
                 if access_tokenEnph:
                     print("should have generated new access and refresh into file, running again...")
                     main()
                 else:
                     return
+                '''
             else:
                 print("Refresh token is missing. Please provide a valid refresh token.")
                 return
 
         # Consumption Meter URL
         url_consumption = "https://api.enphaseenergy.com/api/v4/systems/4383764/telemetry/consumption_meter"
-        myParam_consumption = {"key": "b832d681a9b724193bf222ea115b67a2"}
+        myParam_consumption = {"key": "dfdfbbbd4d5687ed46eb2e0f81056bf9"}
 
         try:
             # Make the full URL with the parameters for consumption_meter
@@ -226,7 +229,7 @@ def main():
             print("Access token is missing. Obtaining a new one...")
             if refresh_tokenEnph:
                 print("IM IN HERE")
-                access_tokenEnph = refresh_access_token(refresh_tokenEnph)
+                #access_tokenEnph = refresh_access_token(refresh_tokenEnph)
                 if access_tokenEnph:
                     print("should have generated new access and refresh into file, running again...")
                     main()
@@ -424,7 +427,7 @@ def main():
                                         emailNotif2("Testing", f"charging would have started now and rate set to {ChargeValue}")
                                     else: 
                                         setChargingAmperage(ModelY,access_tokenTes,ChargeValue)
-                                        startCharge(access_tokenTes, ModelY)
+                                        print("CHARGING RATE CHANGED, setting to chargeamps var value")
                                         emailNotif("Testing", f"charging would have started now, and rate set to {ChargeValue}")
                                         emailNotif2("Testing", f"charging would have started now and rate set to {ChargeValue}")
                                         print("CHARGING RATE CHANGED, setting to chargeamps var value")
