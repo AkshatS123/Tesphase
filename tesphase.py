@@ -1,19 +1,18 @@
 import urllib.request
+import urllib.parse
 import json
 from datetime import datetime
 import base64
 import hashlib 
-import base64
 import urllib 
-import json
 import getpass
 import requests
 import smtplib
 import time
 
 TOKEN_FILE_PATH = "tokens.json"
-CLIENT_ID = "7599412584cf63d77e7b77e038d06032"
-CLIENT_SECRET = "368c2b0463f47dbafb4bc3dc1fe5c4fd"
+CLIENT_ID = "522971af7de5da2d7f3fe5301ba5f413"
+CLIENT_SECRET = "5673a12f2fabe349d505236db8b8c345" 
 sender_email = "krakedlucifer91@gmail.com"
 sender_password = "xfrlwexdeezdntjn"
 receiver_email = "svishal@gmail.com"
@@ -55,50 +54,65 @@ def main():
     def save_tokens(tokens, new_access, new_refresh):
         with open(TOKEN_FILE_PATH, "w") as token_file:
             tokens["access_tokenEnphase"] = new_access
-            #tokens["refresh_tokenEnphase"] = new_refresh
-            #save_tokens(tokens)
-            #json.dump([{"access_tokenEnphase": new_access, "refresh_tokenEnphase" : new_refresh}])
+            if new_refresh:
+                tokens["refresh_tokenEnphase"] = new_refresh
+            json.dump(tokens, token_file, indent=4)
 
     def enphase(): 
         
         def refresh_access_token(refresh_tokenEnph):
             refresh_url = "https://api.enphaseenergy.com/oauth/token"
-            refresh_params = {
-                "grant_type": "refresh_token",
-                "refresh_token": refresh_tokenEnph
-            }
-
+            
             # Encode the client credentials for the Authorization header
             credentials = f"{CLIENT_ID}:{CLIENT_SECRET}"
             credentials_bytes = credentials.encode('ascii')
             base64_credentials = base64.b64encode(credentials_bytes).decode('ascii')
             auth_header = f"Basic {base64_credentials}"
 
-            headers = {"Authorization": auth_header}
+            headers = {
+                "Authorization": auth_header,
+                "Content-Type": "application/x-www-form-urlencoded"
+            }
+            
+            # Use form data instead of URL parameters for POST request
+            data = {
+                "grant_type": "refresh_token",
+                "refresh_token": refresh_tokenEnph
+            }
+            
+            # Convert data to form-encoded format
+            data_encoded = urllib.parse.urlencode(data).encode('ascii')
 
             try:
-                refresh_request_url = refresh_url + "?" + "&".join(f"{key}={value}" for key, value in refresh_params.items())
-                # Remove invalid characters from the URL
-                refresh_request_url = refresh_request_url.replace(" ", "").replace("\n", "").split("--header")[0]
-                refresh_request = urllib.request.Request(refresh_request_url, headers=headers, method="POST")
-                print("Refreshing token. URL:", refresh_request.full_url)  # Print the URL
+                refresh_request = urllib.request.Request(refresh_url, data=data_encoded, headers=headers, method="POST")
+                print("Refreshing token. URL:", refresh_request.full_url)
+                
                 with urllib.request.urlopen(refresh_request) as refresh_response:
                     refresh_data = json.loads(refresh_response.read().decode())
-                    print(refresh_data)
+                    print("Refresh response:", refresh_data)
+                    
                     new_access_token = refresh_data.get("access_token")
                     new_refresh_token = refresh_data.get("refresh_token")
-                    # Update the tokens in the JSON file
-                    tokens = load_tokens()
-                    print("TESING PART HERRE NEW ACESS TOKEN:")
-                    print(new_access_token)
-                    tokens["access_tokenEnphase"] = new_access_token
-                    tokens["refresh_tokenEnphase"] = new_refresh_token
-                    save_tokens(tokens, new_access_token, new_refresh_token)  # Save the updated tokens to the JSON file
+                    
+                    if new_access_token:
+                        # Update the tokens in the JSON file
+                        tokens = load_tokens()
+                        print("NEW ACCESS TOKEN OBTAINED:")
+                        print(new_access_token)
+                        tokens["access_tokenEnphase"] = new_access_token
+                        if new_refresh_token:
+                            tokens["refresh_tokenEnphase"] = new_refresh_token
+                        save_tokens(tokens, new_access_token, new_refresh_token)
+                        return new_access_token
+                    else:
+                        print("No access token in refresh response")
+                        return None
 
-
-                return new_access_token
             except urllib.error.URLError as e:
-                print("Failed to refresh access_token.")
+                print(f"Failed to refresh access_token. Error: {e}")
+                if hasattr(e, 'read'):
+                    error_response = e.read().decode()
+                    print(f"Error response: {error_response}")
                 return None
         
         tokens = load_tokens()
