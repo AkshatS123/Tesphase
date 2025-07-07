@@ -12,7 +12,7 @@ import urllib.parse
 class TeslaFleetAPI:
     def __init__(self, token_file_path="tokens.json"):
         self.token_file_path = token_file_path
-        self.base_url = "https://fleet-api.prd.vn.cloud.tesla.com"
+        self.base_url = "https://fleet-api.prd.na.vn.cloud.tesla.com"
         self.auth_url = "https://fleet-auth.prd.vn.cloud.tesla.com"
         
         # Load configuration
@@ -184,6 +184,7 @@ class TeslaFleetAPI:
             print(f"API request failed: {e}")
             if hasattr(e, 'response') and e.response:
                 print(f"Response: {e.response.text}")
+                print(f"Status code: {e.response.status_code}")
             return None
     
     def get_vehicles(self):
@@ -237,7 +238,7 @@ def setup_oauth_flow():
     """Helper function to set up OAuth flow"""
     fleet_api = TeslaFleetAPI()
     
-    redirect_uri = "https://your-domain.com/callback"  # Replace with your redirect URI
+    redirect_uri = "https://akshats123.github.io/Tesphase/callback"  # Your GitHub Pages domain
     auth_url, state = fleet_api.generate_authorization_url(redirect_uri)
     
     print("Step 1: Go to this URL to authorize your application:")

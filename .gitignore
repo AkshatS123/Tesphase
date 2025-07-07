@@ -5,6 +5,9 @@ tokens.json
 private_key.pem
 # Note: public key in .well-known/ is safe to commit
 
+# Private documentation with tokens and sensitive commands
+README_PRIVATE.md
+
 # Python
 __pycache__/
 *.py[cod]
