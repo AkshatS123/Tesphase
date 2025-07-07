@@ -1,6 +1,10 @@
 # Ignore tokens file containing sensitive API keys
 tokens.json
 
+# Tesla Fleet API Keys - Keep private key secure!
+private_key.pem
+# Note: public key in .well-known/ is safe to commit
+
 # Python
 __pycache__/
 *.py[cod]
