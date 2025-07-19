@@ -103,7 +103,8 @@ class TeslaFleetAPI:
     
     def refresh_access_token(self):
         """Refresh the access token using refresh token"""
-        if not self.config.get('refresh_token'):
+        refresh_token = self.config.get('refresh_token') or self.config.get('user_refresh_token')
+        if not refresh_token:
             print("No refresh token available")
             return None
             
@@ -117,7 +118,7 @@ class TeslaFleetAPI:
             'grant_type': 'refresh_token',
             'client_id': self.config.get('client_id'),
             'client_secret': self.config.get('client_secret'),
-            'refresh_token': self.config.get('refresh_token')
+            'refresh_token': refresh_token
         }
         
         try:
@@ -145,17 +146,18 @@ class TeslaFleetAPI:
     def get_valid_token(self):
         """Get a valid access token, refreshing if necessary"""
         # Check if token exists and is not expired
-        if not self.config.get('access_token'):
+        access_token = self.config.get('access_token') or self.config.get('user_access_token')
+        if not access_token:
             return None
             
-        expiry_str = self.config.get('token_expiry')
+        expiry_str = self.config.get('token_expiry') or self.config.get('user_token_expiry')
         if expiry_str:
             expiry = datetime.fromisoformat(expiry_str)
             if datetime.now() >= expiry - timedelta(minutes=5):  # Refresh 5 minutes before expiry
                 print("Token expired, refreshing...")
                 return self.refresh_access_token()
         
-        return self.config.get('access_token')
+        return access_token
     
     def make_api_request(self, endpoint, method='GET', data=None):
         """Make an authenticated API request"""

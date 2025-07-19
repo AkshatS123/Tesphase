@@ -8,6 +8,9 @@ private_key.pem
 # Private documentation with tokens and sensitive commands
 README_PRIVATE.md
 
+# Project breakdown documentation (contains sensitive info)
+TESPHASE_PROJECT_BREAKDOWN.md
+
 # Python
 __pycache__/
 *.py[cod]
