@@ -16,7 +16,7 @@ CLIENT_ID = "522971af7de5da2d7f3fe5301ba5f413"
 CLIENT_SECRET = "5673a12f2fabe349d505236db8b8c345" 
 sender_email = "krakedlucifer91@gmail.com"
 sender_password = "xfrlwexdeezdntjn"
-receiver_email = "svishal@gmail.com"
+# receiver_email = "svishal@gmail.com"  # Commented out per request
 receiver_email2 = "s.akshat@gmail.com"
 
 # Tesla Fleet API vehicle ID (Grey car - Model Y)
@@ -30,7 +30,7 @@ def main():
         try:
             with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
                 server.login(sender_email, sender_password)
-                server.sendmail(sender_email, receiver_email, message)
+                server.sendmail(sender_email, receiver_email2, message)  # Using receiver_email2 only
             print("Email sent successfully!")
         except Exception as e:
             print(f"Failed to send email. Error: {e}")
@@ -262,11 +262,11 @@ def main():
                     stop_result = fleet_api.stop_charging(VEHICLE_ID)
                     if stop_result:
                         print("✅ Charging stopped")
-                        emailNotif("TESPHASE", f"Charging stopped - insufficient solar power ({charge_amps:.1f}A available)")
-                        emailNotif2("TESPHASE", f"Charging stopped - insufficient solar power ({charge_amps:.1f}A available)")
+                        emailNotif("TESPHASE", f"Grey car charging stopped - insufficient solar power ({charge_amps:.1f}A available)")
+                        emailNotif2("TESPHASE", f"Grey car charging stopped - insufficient solar power ({charge_amps:.1f}A available)")
                     else:
                         print("❌ Failed to stop charging")
-                        emailNotif("TESPHASE ERROR", "Failed to stop Tesla charging")
+                        emailNotif("TESPHASE ERROR", "Failed to stop Grey car charging")
                         
                 else:
                     # Adjust charging rate to match solar production
@@ -277,13 +277,16 @@ def main():
                         amp_result = fleet_api.set_charging_amps(VEHICLE_ID, target_amps)
                         if amp_result:
                             print("✅ Charge rate adjusted")
-                            emailNotif("TESPHASE", f"Charge rate adjusted to {target_amps}A (solar: {charge_amps:.1f}A)")
-                            emailNotif2("TESPHASE", f"Charge rate adjusted to {target_amps}A (solar: {charge_amps:.1f}A)")
+                            emailNotif("TESPHASE", f"Grey car charge rate adjusted to {target_amps}A (solar: {charge_amps:.1f}A)")
+                            emailNotif2("TESPHASE", f"Grey car charge rate adjusted to {target_amps}A (solar: {charge_amps:.1f}A)")
                         else:
                             print("❌ Failed to adjust charge rate")
-                            emailNotif("TESPHASE ERROR", "Failed to adjust Tesla charging rate")
+                            emailNotif("TESPHASE ERROR", "Failed to adjust Grey car charging rate")
                     else:
                         print(f"✅ Charge rate already optimal ({current_charge_amps}A)")
+                        # Send status email when charging optimally (every time for now)
+                        emailNotif("TESPHASE STATUS", f"Grey car charging optimally at {current_charge_amps}A using solar power ({charge_amps:.1f}A available). Battery: {battery_level}%")
+                        emailNotif2("TESPHASE STATUS", f"Grey car charging optimally at {current_charge_amps}A using solar power ({charge_amps:.1f}A available). Battery: {battery_level}%")
                         
             elif current_charging_state in ["Stopped", "Complete", "Disconnected"]:
                 print(f"🔌 Vehicle charging is {current_charging_state.lower()}")
@@ -292,23 +295,30 @@ def main():
                     # Start charging if sufficient solar power
                     target_amps = min(int(charge_amps), 25)  # Cap at 25A max
                     
-                    print(f"☀️ Starting charge at {target_amps}A")
-                    start_result = fleet_api.start_charging(VEHICLE_ID)
-                    if start_result:
-                        print("✅ Charging started")
-                        # Set charging rate
-                        time.sleep(2)  # Brief pause before setting amps
-                        amp_result = fleet_api.set_charging_amps(VEHICLE_ID, target_amps)
-                        if amp_result:
-                            print(f"✅ Charge rate set to {target_amps}A")
-                            emailNotif("TESPHASE", f"Charging started at {target_amps}A (solar: {charge_amps:.1f}A)")
-                            emailNotif2("TESPHASE", f"Charging started at {target_amps}A (solar: {charge_amps:.1f}A)")
-                        else:
-                            print("❌ Failed to set charge rate")
-                            emailNotif("TESPHASE ERROR", "Started charging but failed to set rate")
+                    if current_charging_state == "Disconnected":
+                        # Handle disconnected vehicle specifically
+                        print("🔌 Grey car not plugged in - cannot start charging")
+                        emailNotif("TESPHASE - PLUG IN CAR", f"Grey car (Model Y) is not plugged in. Please plug in to charge at {target_amps}A with available solar power ({charge_amps:.1f}A)")
+                        emailNotif2("TESPHASE - PLUG IN CAR", f"Grey car (Model Y) is not plugged in. Please plug in to charge at {target_amps}A with available solar power ({charge_amps:.1f}A)")
                     else:
-                        print("❌ Failed to start charging")
-                        emailNotif("TESPHASE ERROR", "Failed to start Tesla charging")
+                        # Vehicle is stopped/complete but plugged in
+                        print(f"☀️ Starting charge at {target_amps}A")
+                        start_result = fleet_api.start_charging(VEHICLE_ID)
+                        if start_result:
+                            print("✅ Charging started")
+                            # Set charging rate
+                            time.sleep(2)  # Brief pause before setting amps
+                            amp_result = fleet_api.set_charging_amps(VEHICLE_ID, target_amps)
+                            if amp_result:
+                                print(f"✅ Charge rate set to {target_amps}A")
+                                emailNotif("TESPHASE", f"Grey car charging started at {target_amps}A (solar: {charge_amps:.1f}A)")
+                                emailNotif2("TESPHASE", f"Grey car charging started at {target_amps}A (solar: {charge_amps:.1f}A)")
+                            else:
+                                print("❌ Failed to set charge rate")
+                                emailNotif("TESPHASE ERROR", "Grey car started charging but failed to set rate")
+                        else:
+                            print("❌ Failed to start charging")
+                            emailNotif("TESPHASE ERROR", "Failed to start Grey car charging")
                         
                 else:
                     print(f"☀️ Insufficient solar power ({charge_amps:.1f}A) - not starting charge")

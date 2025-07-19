@@ -11,6 +11,17 @@ README_PRIVATE.md
 # Project breakdown documentation (contains sensitive info)
 TESPHASE_PROJECT_BREAKDOWN.md
 
+# ALL ALGORITHM/SCRIPT FILES - Keep private for security
+tesphase.py
+tesphase_working.py
+tesla_fleet_api.py
+test_tesphase.py
+test_email.py
+
+# Cycle tracking files
+cycle_count.txt
+startup_notification.txt
+
 # Python
 __pycache__/
 *.py[cod]
