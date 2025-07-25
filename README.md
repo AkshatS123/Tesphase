@@ -36,9 +36,6 @@
 
 ## Enphase API Integration - **WORKING** ✅
 
-### Current Configuration:
-- **System ID**: 4383764
-- **API Key**: dfdfbbbd4d5687ed46eb2e0f81056bf9
 - **Token Auto-Refresh**: Implemented and tested
 - **Data Collection**: Production and consumption meters every 15 minutes
 
