@@ -55,7 +55,6 @@
 
 ### **Configuration Files:**
 - **`requirements.txt`** - Python dependencies (requests, urllib3, cryptography)
-- **`CLAUDE.md`** - Complete project history and troubleshooting guide
 
 ## Email Configuration - **WORKING** ✅
 
