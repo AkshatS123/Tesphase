@@ -1,4 +1,4 @@
-# Tesphase - Tesla & Enphase Smart Solar Charging System
+# Tesphase - (just working protoype) Tesla & Enphase Smart Solar Charging System
 
 ## 🎉 **PRODUCTION READY** - Updated July 19, 2025
 
