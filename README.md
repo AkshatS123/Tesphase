@@ -21,10 +21,6 @@
 - **Vehicle Status**: Grey car (Model Y) - 53% battery, disconnected
 - **System Response**: Smart notification to plug in car for 18A charging
 
-### **Vehicle Configuration:**
-- **Grey car (Model Y)**: VIN 5YJYGAEEXMF157342, ID 1493134009886258
-- **Red car (Model 3)**: VIN 5YJ3E1EAXJF153980, ID 1492930803269392
-
 ## Tesla Fleet API Integration
 
 ### Domain Setup - **COMPLETED** ✅
