@@ -4,15 +4,15 @@
 
 **Tesphase** is a smart charging system that automatically controls Tesla vehicle charging based on excess solar power from Enphase solar panels. The system maximizes use of free solar energy while avoiding peak electricity rates.
 
-## Current Status: **FULLY OPERATIONAL** ✅
+## Current Status: 
 
 ### **Core Functionality Working:**
-- ✅ **Solar Data Collection** - Real-time Enphase production/consumption monitoring
-- ✅ **Tesla Fleet API Integration** - Complete vehicle control via new Tesla Fleet API
-- ✅ **Smart Charging Logic** - Automatically starts/stops/adjusts charging based on solar excess
-- ✅ **Email Notifications** - Real-time alerts for all charging events and system status
-- ✅ **Blackout Hour Protection** - Prevents high usage during 4PM-9PM peak hours
-- ✅ **Token Management** - Auto-refresh for both Enphase and Tesla tokens
+- **Solar Data Collection** - Real-time Enphase production/consumption monitoring
+- **Tesla Fleet API Integration** - Complete vehicle control via new Tesla Fleet API
+- **Smart Charging Logic** - Automatically starts/stops/adjusts charging based on solar excess
+- **Email Notifications** - Real-time alerts for all charging events and system status
+- **Blackout Hour Protection** - Prevents high usage during 4PM-9PM peak hours
+- **Token Management** - Auto-refresh for both Enphase and Tesla tokens
 
 ### **Last Testing Results (July 19, 2025):**
 - **Solar Production**: 5,576W
@@ -23,18 +23,18 @@
 
 ## Tesla Fleet API Integration
 
-### Domain Setup - **COMPLETED** ✅
+### Domain Setup - **COMPLETED**
 - **Domain**: `https://akshats123.github.io/`
 - **Public Key**: Hosted at `https://akshats123.github.io/.well-known/appspecific/com.tesla.3p.public-key.pem`
 - **Tesla Registration**: Successfully registered in NA region
 - **Virtual Key**: Added and validated
 
-### Authentication - **WORKING** ✅
+### Authentication -
 - **OAuth Flow**: Authorization code flow implemented and tested
 - **Token Management**: Auto-refresh implemented with 8-hour token lifecycle
 - **Vehicle Access**: Full access to both vehicles confirmed
 
-## Enphase API Integration - **WORKING** ✅
+## Enphase API Integration -
 
 - **Token Auto-Refresh**: Implemented and tested
 - **Data Collection**: Production and consumption meters every 15 minutes
@@ -56,7 +56,7 @@
 ### **Configuration Files:**
 - **`requirements.txt`** - Python dependencies (requests, urllib3, cryptography)
 
-## Email Configuration - **WORKING** ✅
+## Email Configuration -
 
 ### **Current Setup:**
 - **Sender**: krakedlucifer91@gmail.com
