@@ -1,4 +1,4 @@
-# Tesphase - Tesla & Enphase Smart Solar Charging System
+# Tesphase - (just working protoype) Tesla & Enphase Smart Solar Charging System
 
 ## **there was a annoying api issue** - Updated July 21, 2025
 
@@ -14,12 +14,12 @@
 - **Data Reading**: Still works (vehicle status, battery levels) ✅
 
 ### **Core Functionality Working:**
-- ✅ **Solar Data Collection** - Real-time Enphase production/consumption monitoring
-- ✅ **Tesla Fleet API Integration** - Complete vehicle control via new Tesla Fleet API
-- ✅ **Smart Charging Logic** - Automatically starts/stops/adjusts charging based on solar excess
-- ✅ **Email Notifications** - Real-time alerts for all charging events and system status
-- ✅ **Blackout Hour Protection** - Prevents high usage during 4PM-9PM peak hours
-- ✅ **Token Management** - Auto-refresh for both Enphase and Tesla tokens
+- **Solar Data Collection** - Real-time Enphase production/consumption monitoring
+- **Tesla Fleet API Integration** - Complete vehicle control via new Tesla Fleet API
+- **Smart Charging Logic** - Automatically starts/stops/adjusts charging based on solar excess
+- **Email Notifications** - Real-time alerts for all charging events and system status
+- **Blackout Hour Protection** - Prevents high usage during 4PM-9PM peak hours
+- **Token Management** - Auto-refresh for both Enphase and Tesla tokens
 
 ### **Last Testing Results (July 19, 2025):**
 - **Solar Production**: 5,576W
@@ -27,10 +27,6 @@
 - **Excess Available**: 4,440W (18.5A for Tesla charging)
 - **Vehicle Status**: Grey car (Model Y) - 53% battery, disconnected
 - **System Response**: Smart notification to plug in car for 18A charging
-
-### **Vehicle Configuration:**
-- **Grey car (Model Y)**: VIN 5YJYGAEEXMF157342, ID 1493134009886258
-- **Red car (Model 3)**: VIN 5YJ3E1EAXJF153980, ID 1492930803269392
 
 ## Tesla Fleet API Integration
 
@@ -47,9 +43,6 @@
 
 ## Enphase API Integration - **WORKING** 
 
-### Current Configuration:
-- **System ID**: 4383764
-- **API Key**: dfdfbbbd4d5687ed46eb2e0f81056bf9
 - **Token Auto-Refresh**: Implemented and tested
 - **Data Collection**: Production and consumption meters every 15 minutes
 
@@ -69,7 +62,6 @@
 
 ### **Configuration Files:**
 - **`requirements.txt`** - Python dependencies (requests, urllib3, cryptography)
-- **`CLAUDE.md`** - Complete project history and troubleshooting guide
 
 ## Email Configuration - **WORKING** 
 
