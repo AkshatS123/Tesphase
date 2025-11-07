@@ -14,9 +14,28 @@ TESPHASE_PROJECT_BREAKDOWN.md
 # ALL ALGORITHM/SCRIPT FILES - Keep private for security
 tesphase.py
 tesphase_working.py
+tesphase_multi_vehicle.py
 tesla_fleet_api.py
 test_tesphase.py
 test_email.py
+
+# Tesla Vehicle Command Protocol - HIGHLY SENSITIVE
+vehicle-command/
+*.pem
+*.p12
+*.key
+*.crt
+*.cert
+start-tesla-proxy.bat
+test_proxy.py
+test_charging_commands.py
+test_single_command.py
+add_virtual_keys.py
+register_vehicles.py
+SETUP_INSTRUCTIONS.md
+
+# Private configuration files
+vehicle-config.json
 
 # Cycle tracking files
 cycle_count.txt

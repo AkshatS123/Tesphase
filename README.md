@@ -1,10 +1,17 @@
 # Tesphase - Tesla & Enphase Smart Solar Charging System
 
-## 🎉 **PRODUCTION READY** - Updated July 19, 2025
+## **there was a annoying api issue** - Updated July 21, 2025
 
 **Tesphase** is a smart charging system that automatically controls Tesla vehicle charging based on excess solar power from Enphase solar panels. The system maximizes use of free solar energy while avoiding peak electricity rates.
 
-## Current Status: **FULLY OPERATIONAL** ✅
+## Current Status: **REQUIRES TESLA VEHICLE COMMAND PROTOCOL** 
+
+### **BREAKING CHANGE - Tesla API Commands Deprecated:**
+- **Issue**: All Tesla vehicle commands now return **403 Forbidden**
+- **Error**: "Tesla Vehicle Command Protocol required"
+- **Affected**: charge_start, charge_stop, set_charging_amps for BOTH vehicles
+- **Solution**: Must implement Tesla Vehicle Command SDK with HTTP Proxy
+- **Data Reading**: Still works (vehicle status, battery levels) ✅
 
 ### **Core Functionality Working:**
 - ✅ **Solar Data Collection** - Real-time Enphase production/consumption monitoring
@@ -27,18 +34,18 @@
 
 ## Tesla Fleet API Integration
 
-### Domain Setup - **COMPLETED** ✅
+### Domain Setup - **COMPLETED** 
 - **Domain**: `https://akshats123.github.io/`
 - **Public Key**: Hosted at `https://akshats123.github.io/.well-known/appspecific/com.tesla.3p.public-key.pem`
 - **Tesla Registration**: Successfully registered in NA region
 - **Virtual Key**: Added and validated
 
-### Authentication - **WORKING** ✅
+### Authentication - **WORKING** 
 - **OAuth Flow**: Authorization code flow implemented and tested
 - **Token Management**: Auto-refresh implemented with 8-hour token lifecycle
 - **Vehicle Access**: Full access to both vehicles confirmed
 
-## Enphase API Integration - **WORKING** ✅
+## Enphase API Integration - **WORKING** 
 
 ### Current Configuration:
 - **System ID**: 4383764
@@ -64,7 +71,7 @@
 - **`requirements.txt`** - Python dependencies (requests, urllib3, cryptography)
 - **`CLAUDE.md`** - Complete project history and troubleshooting guide
 
-## Email Configuration - **WORKING** ✅
+## Email Configuration - **WORKING** 
 
 ### **Current Setup:**
 - **Sender**: krakedlucifer91@gmail.com
@@ -127,8 +134,6 @@
 - **Basic Scheduling**: 15-minute intervals only
 - **Email Only**: No web interface or mobile app
 
----
-
-## **🚀 SYSTEM IS PRODUCTION READY - FULLY TESTED AND OPERATIONAL** 🚀
+--- 
 
 
