@@ -40,19 +40,29 @@ class TesphaseSetupWizard:
         return "@" in email and "." in email.split("@")[1]
         
     def test_enphase_connection(self, api_key, system_id):
-        """Test Enphase API connection"""
+        """Test Enphase API connection using Bearer token (same as production)"""
         try:
-            url = f"https://api.enphaseenergy.com/api/v4/systems/{system_id}/summary"
-            params = {"key": api_key}
+            # Use the same endpoint as production code
+            url = f"https://api.enphaseenergy.com/api/v4/systems/{system_id}/telemetry/production_meter"
+            params = {"key": "dfdfbbbd4d5687ed46eb2e0f81056bf9"}  # Same key as production
+            
+            headers = {
+                "Authorization": f"Bearer {api_key}"
+            }
             
             complete_url = url + "?" + "&".join(f"{k}={v}" for k, v in params.items())
-            request = urllib.request.Request(complete_url)
+            request = urllib.request.Request(complete_url, headers=headers)
             
             with urllib.request.urlopen(request, timeout=10) as response:
                 data = json.loads(response.read().decode())
-                if 'system_id' in data:
-                    print(f"✅ Enphase connection successful! System: {data.get('name', 'Unknown')}")
+                if 'intervals' in data and len(data['intervals']) > 0:
+                    latest = data['intervals'][0]
+                    production = latest.get('powr', 0)
+                    print(f"✅ Enphase connection successful! Current production: {production}W")
                     return True
+                else:
+                    print("❌ No production data available")
+                    return False
         except Exception as e:
             print(f"❌ Enphase connection failed: {e}")
             return False
